@@ -8,6 +8,6 @@ This project is part of [The Odin Project](https://www.theodinproject.com/). The
 
 **1. Database**
 
-- [Requirements](./docs/database-requirements.txt)
-- [Entity-Relationship Diagram](./docs/database-entity-relationship.pdf)
-- [Relational Diagram](./docs/database-relational.pdf)
+- [Requirements](./docs/database_requirements.txt)
+- [Entity-Relationship Diagram](./docs/database_entity_relationship.pdf)
+- [Relational Diagram](./docs/database_relational.pdf)

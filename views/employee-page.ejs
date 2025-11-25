@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employees</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/employee-page.css" />
+  </head>
+  <body>
+    <h1 class="title">Employee List (<%= totalEmployees %>)</h1>
+    <div class="container">
+      <div class="employee-container">
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Job Title</th>
+              <th>Email</th>
+              <th>Extension</th>
+              <th>Office Code</th>
+              <th>Reports To</th>
+            </tr>
+            <tr class="filter-row">
+              <form action="/" method="get">
+                <th><input type="text" name="employeeNumber" value="<%= filters.employeeNumber || '' %>"></th>
+                <th><input type="text" name="firstName" value="<%= filters.firstName || '' %>"></th>
+                <th><input type="text" name="lastName" value="<%= filters.lastName || '' %>"></th>
+                <th><input type="text" name="jobTitle" value="<%= filters.jobTitle || '' %>"></th>
+                <th><input type="text" name="email" value="<%= filters.email || '' %>"></th>
+                <th><input type="text" name="extension" value="<%= filters.extension || '' %>"></th>
+                <th><input type="text" name="officeCode" value="<%= filters.officeCode || '' %>"></th>
+                <th><input type="text" name="reportsTo" value="<%= filters.reportsTo || '' %>"></th>
+                <button type="submit" class="filter-btn">Filter</button>
+              </form>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (employees && employees.length > 0) { %>
+              <% employees.forEach(employee => { %>
+                <tr data-employee-number="<%= employee.employeeNumber %>">
+                  <td><%= employee.employeeNumber %></td>
+                  <td><%= employee.firstName %></td>
+                  <td><%= employee.lastName %></td>
+                  <td><%= employee.jobTitle %></td>
+                  <td><%= employee.email %></td>
+                  <td><%= employee.extension || 'N/A' %></td>
+                  <td><%= employee.officeCode || 'N/A' %></td>
+                  <td><%= employee.reportsTo || 'N/A' %></td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr class="no-results-row">
+                <td colspan="8" class="no-employees">
+                  No employees found.
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+        <div class="page-navigation">
+          <% 
+            let filterParams = [];
+            for (const key in filters) { 
+              if (filters[key]) {
+                filterParams.push(`${key}=${encodeURIComponent(filters[key])}`);
+              }
+            }
+            const filterQuery = filterParams.length > 0 ? '&' + filterParams.join('&') : '';
+          %>
+          <p class="current-page">Page <%= totalPages === 0 ? 0 : currentPage + "/" + totalPages %></p>
+          <div class="button-group">
+            <a href="?page=<%= currentPage - 1 %><%= filterQuery %>">
+              <button <%= currentPage === 1 ? 'disabled' : '' %>>Prev</button>
+            </a>
+            <a href="?page=<%= currentPage + 1 %><%= filterQuery %>">
+              <button <%= currentPage === totalPages || totalPages === 0 ? 'disabled' : '' %>>Next</button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <form class="add-form" action="/add" method="POST">
+        <h2 class="form-title">New Employee</h2>
+        <div class="form-body">
+          <div class="form-field">
+            <label for="employeeNumber">Employee Number</label>
+            <input type="text" id="employeeNumber" name="employeeNumber" required>
+          </div>
+
+          <div class="form-field">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+          </div>
+          <div class="form-field">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
+          </div>
+          <div class="form-field">
+            <label for="jobTitle">Job Title</label>
+            <input type="text" id="jobTitle" name="jobTitle" required>
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-field">
+            <label for="extension">Extension</label>
+            <input type="text" id="extension" name="extension">
+          </div>
+          <div class="form-field">
+            <label for="officeCode">Office Code</label>
+            <input type="text" id="officeCode" name="officeCode">
+          </div>
+          <div class="form-field">
+            <label for="reportsTo">Reports To</label>
+            <input type="number" id="reportsTo" name="reportsTo">
+          </div>
+        </div>
+        <button type="submit" class="submit-button">Add Employee</button>
+      </form>
+    </div>
+    <div class="edit-modal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h3>Edit Employee</h3>
+          <button class="close-btn">x</button>
+        </div>
+        <div class="modal-body">
+          <form class="edit-form" action="/update" method="POST">
+            <div class="form-body">
+              <input type="hidden" id="update-employeeNumber" name="employeeNumber">
+              <div class="form-field">
+                <label for="update-firstName">First Name</label>
+                <input type="text" id="update-firstName" name="firstName" required>
+              </div>
+              <div class="form-field">
+                <label for="update-lastName">Last Name</label>
+                <input type="text" id="update-lastName" name="lastName" required>
+              </div>
+              <div class="form-field">
+                <label for="update-jobTitle">Job Title</label>
+                <input type="text" id="update-jobTitle" name="jobTitle" required>
+              </div>
+              <div class="form-field">
+                <label for="update-email">Email</label>
+                <input type="email" id="update-email" name="email" required>
+              </div>
+              <div class="form-field">
+                <label for="update-extension">Extension</label>
+                <input type="text" id="update-extension" name="extension">
+              </div>
+              <div class="form-field">
+                <label for="update-officeCode">Office Code</label>
+                <input type="text" id="update-officeCode" name="officeCode">
+              </div>
+              <div class="form-field">
+                <label for="update-reportsTo">Reports To</label>
+                <input type="number" id="update-reportsTo" name="reportsTo">
+              </div>
+            </div>
+            <div class="button-group">
+              <button type="submit">Save</button>
+              <button type="button" class="delete-button">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="/scripts/employee-page.js"></script>
+</html>

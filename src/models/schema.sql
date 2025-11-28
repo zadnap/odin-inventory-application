@@ -7,17 +7,19 @@ CREATE TABLE IF NOT EXISTS books (
     bookID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     bookName VARCHAR(255) NOT NULL,
     description TEXT,
-    numberOfCopies INTEGER NOT NULL
+    bookImageUrl TEXT
 );
 
 CREATE TABLE IF NOT EXISTS authors (
     authorID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    authorName VARCHAR(255) NOT NULL
+    authorName VARCHAR(255) NOT NULL,
+    authorImageUrl TEXT
 );
 
 CREATE TABLE IF NOT EXISTS publishers (
     publisherID INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    publisherName VARCHAR(255) NOT NULL
+    publisherName VARCHAR(255) NOT NULL,
+    publisherImageUrl TEXT
 );
 
 CREATE TABLE IF NOT EXISTS book_genre (

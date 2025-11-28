@@ -1,4 +1,4 @@
 1. Library contains books.
-2. Each book has an ID, a name, a description, an author list, a genre list, a publisher, a year of publication, the number of copies in stock.
-3. Each author has an ID and a full name.
-4. Each publisher has an ID and a name.
+2. Each book has an ID, a name, a description, an author list, a genre list, a publisher, a year of publication, an image of the physical edition.
+3. Each author has an ID, a name, and an image.
+4. Each publisher has an ID, a name and an image.

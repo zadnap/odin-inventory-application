@@ -1,8 +1,12 @@
 const { Router } = require('express');
+const {
+  renderBook,
+  renderSpecificBook,
+} = require('../controllers/bookController');
 
 const bookRouter = Router();
 
-bookRouter.get('/', (req, res) => res.send('Book Page'));
-bookRouter.get('/:id', (req, res) => res.send(`Book id ${req.params.id}`));
+bookRouter.get('/', renderBook);
+bookRouter.get('/:id', renderSpecificBook);
 
 module.exports = bookRouter;

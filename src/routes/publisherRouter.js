@@ -1,10 +1,12 @@
 const { Router } = require('express');
+const {
+  renderPublisher,
+  renderSpecificPublisher,
+} = require('../controllers/publisherController');
 
 const publisherRouter = Router();
 
-publisherRouter.get('/', (req, res) => res.send('Publisher Page'));
-publisherRouter.get('/:id', (req, res) =>
-  res.send(`Publisher id ${req.params.id}`)
-);
+publisherRouter.get('/', renderPublisher);
+publisherRouter.get('/:id', renderSpecificPublisher);
 
 module.exports = publisherRouter;
